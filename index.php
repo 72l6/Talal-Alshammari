@@ -1,8 +1,8 @@
 <?php
-$host = "sql113.infinityfree.com";
-$user = "if0_41888047";
-$pass = "Tala114519";
-$db   = "if0_41888047_portfolio";
+$host = "DB_HOST";
+$user = "DB_USER";
+$pass = "DB_PASSWORD";
+$db   = "DB_NAME";
 
 $conn = new mysqli($host, $user, $pass, $db);
 
@@ -32,26 +32,18 @@ if ($result && $result->num_rows > 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TALAL // PORTFOLIO</title>
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;800&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script>
         const PROFILE_DATA = <?php echo json_encode($data); ?>;
     </script>
 </head>
 <body>
-    <div class="scanlines"></div>
-    <div class="vignette"></div>
-    <div class="noise"></div>
-
     <div class="hud">
         <div class="hud-top">
             <span>ID: <strong>202204099</strong></span>
             <div class="hud-line"></div>
             <span>PORTFOLIO // 2026</span>
         </div>
-        <div class="center-nav">SW_ENGINEER // DATA_STREAM</div>
         <div class="hud-bottom">
             <span>LOC: <strong>HAIL_SA</strong></span>
             <div class="hud-line"></div>
