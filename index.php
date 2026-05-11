@@ -1,29 +1,17 @@
 <?php
-$host = "DB_HOST";
-$user = "DB_USER";
-$pass = "DB_PASSWORD";
-$db   = "DB_NAME";
+$conn = new mysqli("localhost", "root", "", "portfolio_db");
 
-$conn = new mysqli($host, $user, $pass, $db);
+$result = $conn->query("SELECT * FROM profile_data");
+$profile_data = [];
 
-if ($conn->connect_error) {
-    die();
-}
-
-$sql = "SELECT section_type, title, content FROM profile_data ORDER BY sort_order ASC";
-$result = $conn->query($sql);
-$data = [];
-
-if ($result && $result->num_rows > 0) {
-    while($row = $result->fetch_assoc()) {
-        $data[] = [
-            'type' => $row['section_type'],
-            'text' => $row['title'],
-            'title' => $row['title'],
-            'body' => $row['content']
-        ];
+while($row = $result->fetch_assoc()) {
+    if($row['item_type'] == 'big') {
+        $profile_data[] = ['type' => 'big', 'text' => $row['text_val']];
+    } else {
+        $profile_data[] = ['type' => 'card', 'title' => $row['title'], 'body' => $row['body']];
     }
 }
+$json_data = json_encode($profile_data);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -32,42 +20,39 @@ if ($result && $result->num_rows > 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TALAL // PORTFOLIO</title>
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;800&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <script>
-        const PROFILE_DATA = <?php echo json_encode($data); ?>;
-    </script>
 </head>
 <body>
-    <div class="hud">
+    <div class="scanlines"></div>
+    <div class="vignette"></div>
+    <div class="noise"></div>
+
+    <nav class="hud">
         <div class="hud-top">
-            <span>ID: <strong>202204099</strong></span>
+            <a href="#" style="color:inherit;text-decoration:none;">ID: <strong>202204099</strong></a>
             <div class="hud-line"></div>
-            <span>PORTFOLIO // 2026</span>
+            <a href="#" style="color:inherit;text-decoration:none;">PORTFOLIO // 2026</a>
         </div>
+        <div class="center-nav">SW_ENGINEER // DATA_STREAM</div>
         <div class="hud-bottom">
-            <span>LOC: <strong>HAIL_SA</strong></span>
+            <a href="#" style="color:inherit;text-decoration:none;">LOC: <strong>HAIL_SA</strong></a>
             <div class="hud-line"></div>
-            <span>TALAL MOHAMMED AL-SHAMMARI</span>
+            <a href="#" style="color:inherit;text-decoration:none;">TALAL MOHAMMED AL-SHAMMARI</a>
         </div>
-    </div>
+    </nav>
 
     <div class="viewport" id="viewport">
         <div class="world" id="world"></div>
     </div>
 
-    <div class="contact-section">
-        <div class="card contact-card">
-            <h2>CONTACT ME</h2>
-            <form action="#" method="POST">
-                <input type="text" name="name" placeholder="YOUR NAME" required>
-                <input type="email" name="email" placeholder="YOUR EMAIL" required>
-                <textarea name="message" placeholder="YOUR MESSAGE" required></textarea>
-                <button type="submit">SEND_SIGNAL</button>
-            </form>
-        </div>
-    </div>
-
     <div class="scroll-proxy"></div>
+
+    <script>
+        const PROFILE_DATA = <?php echo $json_data; ?>;
+    </script>
     <script src="script.js"></script>
 </body>
 </html>
